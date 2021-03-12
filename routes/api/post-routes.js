@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sequelize = require('../../config/connection');
 const { Post, User } = require('../../models');
 
 
@@ -67,6 +68,18 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
   });
+
+  // PUT /api/posts/upvote
+router.put('/upvote', (req, res) => {
+    Vote.create({
+        user_id: req.body.user_id,
+        post_id: req.body.post_id
+      })
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => res.json(err));
+      
+});
+
 
   // update post
   router.put('/:id', (req, res) => {
